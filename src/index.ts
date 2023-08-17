@@ -31,10 +31,9 @@ const corsOptions = {
 app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/shop-items-database");
-
+const mongoUrl = "mongodb://admin:password@localhost:27017/?authMechanism=DEFAULT"
+mongoose.connect(mongoUrl, { dbName: 'shop-items-db' });
 // API routes
-
 
 app.get(
   "/shop-items/get-all",
@@ -74,7 +73,7 @@ app.post(
         //   priceList: [{ date: new Date(), price: parsePrice }],
         // });
   
-        // await newItem.save();
+        await newItem.save();
   
         res.status(201).json(newItem);
       } catch (error) {
