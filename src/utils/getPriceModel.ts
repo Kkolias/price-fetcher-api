@@ -123,9 +123,7 @@ export async function createShopItemMasku({
   const response = await axios.get(link);
   const $ = cheerio.load(response.data.trim());
 
-  // HUOM KÄYTÄ TÄTÄ GIGANTTIIN JA POWERIIN
-  //   const testi = response.data.trim()
-  //   console.log(testi)
+  
   const priceAsText = $(".price").text();
   const salePriceAsText = $(".list_price").text();
   const parsedPrice = parseFloat(priceAsText?.replace(",", ".") as string);

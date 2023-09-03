@@ -25,7 +25,6 @@ export class GetPricesVerkkokauppa {
       ".Price-sc-1eckydb-2 data[data-price='current']"
     ).attr("data-decimals");
 
-    console.log("XXXXXX:", parsedPrice, parsedDecimal)
     const saleParsedPrice = getPriceAsNumber(salePriceAsText);
     const saleParsedDecimal = getPriceAsNumber(salePriceDecimalAsText);
     const saleTotalParsed = saleParsedPrice + saleParsedDecimal;

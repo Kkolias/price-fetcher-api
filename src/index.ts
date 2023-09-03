@@ -32,7 +32,8 @@ app.use(cors());
 // Connect to MongoDB
 
 // mongoose.connect("mongodb://localhost:27017/shop-items-database");
-const mongoUrl = "mongodb://admin:password@localhost:27017/?authMechanism=DEFAULT"
+const mongoUrl = "mongodb://localhost:27017/"
+// const mongoUrl = "mongodb://admin:password@localhost:27017/?authMechanism=DEFAULT"
 mongoose.connect(mongoUrl, { dbName: 'shop-items-db' });
 
 
@@ -71,20 +72,6 @@ app.post(
         const { name, link, key } = req.body;
         
         const newItem = await util.createNew({ name, key, link })
-        // const newItem = await createShopItem({ name, link, key })
-        // Fetch the initial price using Axios and Cheerio
-        // const response = await axios.get(link);
-        // const $ = cheerio.load(response.data);
-        // const priceAsText = $(".price__amount span").text(); // You need to adjust this based on the actual HTML structure of the price element
-        // const parsePrice = parseFloat(priceAsText.replace(',', '.'))
-
-        // console.log("ASDADA: ", priceAsText)
-        // // Create a new shop item with the initial price
-        // const newItem = new ShopItem({
-        //   name,
-        //   link,
-        //   priceList: [{ date: new Date(), price: parsePrice }],
-        // });
   
         await newItem.save();
   
