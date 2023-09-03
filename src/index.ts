@@ -32,9 +32,11 @@ app.use(cors());
 // Connect to MongoDB
 
 // mongoose.connect("mongodb://localhost:27017/shop-items-database");
-const mongoUrl = "mongodb://localhost:27017/"
-// const mongoUrl = "mongodb://admin:password@localhost:27017/?authMechanism=DEFAULT"
-mongoose.connect(mongoUrl, { dbName: 'shop-items-db' });
+// const mongoUrl = "mongodb://localhost:27017/"
+const mongoUrl = "mongodb://admin:password@localhost:27018/?authMechanism=DEFAULT"
+
+mongoose.connect(mongoUrl, { dbName: 'price-fetcher-db' });
+// mongoose.connect(mongoUrl, { dbName: 'shop-items-db' });
 
 
 // 10 s = "*/10 * * * * *"

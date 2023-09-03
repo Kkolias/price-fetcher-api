@@ -4,10 +4,11 @@ services:
     image: 'mongo:latest'
     container_name: 'mongoDB-cont'
     environment: 
+      MONGO_INITDB_DATABASE: price-fetcher-db
       MONGO_INITDB_ROOT_USERNAME: 'admin'
       MONGO_INITDB_ROOT_PASSWORD: 'password'
     ports:
-      - 27017:27017
+      - 27018:27017
     volumes:
       - mongodb_data_cont:/data/db
 
