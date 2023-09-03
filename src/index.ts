@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import ShopItem from "./Schema/ShopItem";
 import util from './utils/getPrices'
+import cron from "node-cron";
+import cronJobUtil from "./utils/cron.util";
 
 const app = express();
 const port = 8000;
@@ -28,11 +30,11 @@ const corsOptions = {
 app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/shop-items-database");
 
+// mongoose.connect("mongodb://localhost:27017/shop-items-database");
+const mongoUrl = "mongodb://admin:password@localhost:27017/?authMechanism=DEFAULT"
+mongoose.connect(mongoUrl, { dbName: 'shop-items-db' });
 
-import cron from "node-cron";
-import cronJobUtil from "./utils/cron.util";
 
 // 10 s = "*/10 * * * * *"
 // midnight = "0 0 * * *"
@@ -42,8 +44,9 @@ cron.schedule("*/30 * * * * *", async () => {
     cronJobUtil.updateAllPriceLists()
 })
 
-// API routes
 
+
+// API routes
 
 app.get(
   "/shop-items/get-all",
@@ -83,7 +86,7 @@ app.post(
         //   priceList: [{ date: new Date(), price: parsePrice }],
         // });
   
-        // await newItem.save();
+        await newItem.save();
   
         res.status(201).json(newItem);
       } catch (error) {

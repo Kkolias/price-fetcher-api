@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio"; // Import Cheerio
+import { getPriceAsNumber } from "./price.utils";
 
 export class GetPricesJimms {
   async execute(link) {
@@ -12,13 +13,16 @@ export class GetPricesJimms {
     const salePriceAsText = $(".price__amount span[itemprop='price']").attr(
       "content"
     );
+    const salePriceAsNumber = getPriceAsNumber(salePriceAsText)
 
-    const priceNormal = priceAsText.split("Norm.")[1];
-    const parsedPrice = parseFloat(priceNormal?.replace(",", ".") as string);
-    const parsedSalePrice = parseFloat(
-      salePriceAsText?.replace(",", ".") as string
-    );
+    const priceNormal = this.getNormalPrice(priceAsText)
+    const priceAsNumber = priceNormal ? getPriceAsNumber(priceNormal) : salePriceAsNumber
+    const salePrice = priceNormal ? salePriceAsNumber : 0
 
-    return { salePrice: parsedSalePrice, price: parsedPrice };
+    return { salePrice, price: priceAsNumber };
+  }
+
+  getNormalPrice(priceAsText: string): string | null {
+    return priceAsText.split("Norm.")?.[1] || null;
   }
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio"; // Import Cheerio
+import { getPriceAsNumber } from "./price.utils";
 
 export class GetPricesVerkkokauppa {
   async execute(link) {
@@ -13,9 +14,9 @@ export class GetPricesVerkkokauppa {
       ".Price-sc-1eckydb-2 data[data-price='previous']"
     ).attr("data-decimals");
 
-    const parsedPrice = parseFloat(priceAsText as string);
-    const parsedDecimal = parseFloat(priceDecimalAsText as string);
-    const totalParsed = parsedPrice + parsedDecimal;
+    const parsedPrice = getPriceAsNumber(priceAsText);
+    const parsedDecimal = getPriceAsNumber(priceDecimalAsText);
+    const totalParsed = (parsedPrice + parsedDecimal) || null;
 
     const salePriceAsText = $(
       ".Price-sc-1eckydb-2 data[data-price='current']"
@@ -24,9 +25,14 @@ export class GetPricesVerkkokauppa {
       ".Price-sc-1eckydb-2 data[data-price='current']"
     ).attr("data-decimals");
 
-    const saleParsedPrice = parseFloat(salePriceAsText as string);
-    const saleParsedDecimal = parseFloat(salePriceDecimalAsText as string);
+    console.log("XXXXXX:", parsedPrice, parsedDecimal)
+    const saleParsedPrice = getPriceAsNumber(salePriceAsText);
+    const saleParsedDecimal = getPriceAsNumber(salePriceDecimalAsText);
     const saleTotalParsed = saleParsedPrice + saleParsedDecimal;
-    return { salePrice: saleTotalParsed, price: totalParsed };
+
+    const salePrice = totalParsed ? saleTotalParsed : 0
+    const price = totalParsed ? totalParsed : saleTotalParsed
+
+    return { salePrice, price };
   }
 }
