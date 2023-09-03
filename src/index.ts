@@ -1,9 +1,6 @@
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
-import axios from "axios";
-import * as cheerio from "cheerio"; // Import Cheerio
 import ShopItem from "./Schema/ShopItem";
-import { createShopItem } from "./utils/getPriceModel";
 import util from './utils/getPrices'
 
 const app = express();
@@ -32,6 +29,18 @@ app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/shop-items-database");
+
+
+import cron from "node-cron";
+import cronJobUtil from "./utils/cron.util";
+
+// 10 s = "*/10 * * * * *"
+// midnight = "0 0 * * *"
+
+cron.schedule("*/30 * * * * *", async () => {
+    console.log("CRON RUNNING!!!!")
+    cronJobUtil.updateAllPriceLists()
+})
 
 // API routes
 
