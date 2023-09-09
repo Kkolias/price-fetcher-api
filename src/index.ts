@@ -4,6 +4,7 @@ import ShopItem from "./Schema/ShopItem";
 import util from './utils/getPrices'
 import cron from "node-cron";
 import cronJobUtil from "./utils/cron.util";
+require('dotenv').config();
 
 const app = express();
 const port = 8000;
@@ -13,7 +14,7 @@ const cors = require("cors");
 app.use(express.json());
 
 
-const allowedOrigins = ["http://localhost:3000", "100.112.240.70"];
+const allowedOrigins = ["http://localhost:3000", "91.153.178.250"];
 const corsOptions = {
   origin: function (origin: string, callback: any) {
     if (!origin) {
@@ -31,9 +32,10 @@ app.use(cors());
 
 // Connect to MongoDB
 
-// mongoose.connect("mongodb://localhost:27017/shop-items-database");
-// const mongoUrl = "mongodb://localhost:27017/"
-const mongoUrl = "mongodb://admin:password@localhost:27018/?authMechanism=DEFAULT"
+
+// const mongoUrl = "mongodb://admin:password@localhost:27018/?authMechanism=DEFAULT" // local
+// const mongoUrl = `mongodb+srv://develiask:ZlFkqV5Z5dnwogH5@eliaskcluster.xizgwyh.mongodb.net/` // dev
+const mongoUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@eliaskcluster.xizgwyh.mongodb.net/` // dev
 
 mongoose.connect(mongoUrl, { dbName: 'price-fetcher-db' });
 // mongoose.connect(mongoUrl, { dbName: 'shop-items-db' });
@@ -42,7 +44,7 @@ mongoose.connect(mongoUrl, { dbName: 'price-fetcher-db' });
 // 10 s = "*/10 * * * * *"
 // midnight = "0 0 * * *"
 
-cron.schedule("*/30 * * * * *", async () => {
+cron.schedule("*/60 * * * * *", async () => {
     console.log("CRON RUNNING!!!!")
     cronJobUtil.updateAllPriceLists()
 })
