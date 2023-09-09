@@ -34,7 +34,6 @@ app.use(cors());
 
 
 // const mongoUrl = "mongodb://admin:password@localhost:27018/?authMechanism=DEFAULT" // local
-// const mongoUrl = `mongodb+srv://develiask:ZlFkqV5Z5dnwogH5@eliaskcluster.xizgwyh.mongodb.net/` // dev
 const mongoUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@eliaskcluster.xizgwyh.mongodb.net/` // dev
 
 mongoose.connect(mongoUrl, { dbName: 'price-fetcher-db' });
