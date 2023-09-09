@@ -45,7 +45,7 @@ mongoose.connect(mongoUrl, { dbName: 'price-fetcher-db' });
 
 // 10 s = "*/10 * * * * *"
 // midnight = "0 0 * * *"
-const cronTime = isProduction() ? '0 0 * * *' : "*/60 * * * * *"
+const cronTime = isProduction() ? '0 */12 * * *' : "*/60 * * * * *"
 
 
 cron.schedule(cronTime, async () => {
