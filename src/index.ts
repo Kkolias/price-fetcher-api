@@ -60,7 +60,7 @@ app.get(
   async (_req: Request, res: Response) => {
     try {
       const shopItems = await ShopItem.find();
-      console.log("JOUJOU")
+      console.log("JOUJOUo")
       res.status(200).json(shopItems);
     } catch (error) {
       console.error(error);
