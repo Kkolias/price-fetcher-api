@@ -103,18 +103,3 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
     console.log("IS PRODUCTION?: ", isProduction())
 });
-
-// app.get(
-//   "/fishing-permit/get-by-id",
-//   cors(corsOptions),
-//   async (req: Request, res: Response) => {
-//     try {
-//       const id = req?.query?.id || null
-//       const fishingPermit = await FishingPermit.findById(id)
-//       res.status(200).json(fishingPermit);
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).json({ error: "Failed to retrieve fishing permits" });
-//     }
-//   }
-// );

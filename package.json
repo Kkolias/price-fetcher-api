@@ -17,7 +17,8 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts",
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --exec ts-node src/index.ts",
     "docker:compose": "docker compose up -d"
   },
   "devDependencies": {
