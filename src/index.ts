@@ -7,7 +7,7 @@ import cronJobUtil from "./utils/cron.util";
 require('dotenv').config();
 
 const app = express();
-const port = 8000;
+const port = 3000;
 
 const cors = require("cors");
 
@@ -32,8 +32,10 @@ app.use(cors());
 
 // Connect to MongoDB
 
-
-// const mongoUrl = "mongodb://admin:password@localhost:27018/?authMechanism=DEFAULT" // local
+// local
+// const mongoUrl = "mongodb://admin:password@localhost:27018/?authMechanism=DEFAULT"
+// dev
+// const mongoUrl = `mongodb+srv://develiask:I0yYAtpHxlyD2kqE@eliaskcluster.xizgwyh.mongodb.net/`
 const mongoUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@eliaskcluster.xizgwyh.mongodb.net/` // dev
 
 mongoose.connect(mongoUrl, { dbName: 'price-fetcher-db' });
@@ -58,6 +60,7 @@ app.get(
   async (_req: Request, res: Response) => {
     try {
       const shopItems = await ShopItem.find();
+      console.log("GETTIÄ PYYDETTY")
       res.status(200).json(shopItems);
     } catch (error) {
       console.error(error);
