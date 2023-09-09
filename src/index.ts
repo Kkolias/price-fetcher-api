@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import ShopItem from "./Schema/ShopItem";
 import util from './utils/getPrices'
 import cron from "node-cron";
+import { isProduction } from './utils/isProduction'
 import cronJobUtil from "./utils/cron.util";
 require('dotenv').config();
 
@@ -44,8 +45,10 @@ mongoose.connect(mongoUrl, { dbName: 'price-fetcher-db' });
 
 // 10 s = "*/10 * * * * *"
 // midnight = "0 0 * * *"
+const cronTime = isProduction() ? '0 0 * * *' : "*/60 * * * * *"
 
-cron.schedule("*/60 * * * * *", async () => {
+
+cron.schedule(cronTime, async () => {
     console.log("CRON RUNNING!!!!")
     cronJobUtil.updateAllPriceLists()
 })
@@ -98,6 +101,7 @@ app.post(
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
+    console.log("IS PRODUCTION?: ", isProduction())
 });
 
 // app.get(
