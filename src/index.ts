@@ -36,8 +36,10 @@ app.use(cors());
 // local
 // const mongoUrl = "mongodb://admin:password@localhost:27018/?authMechanism=DEFAULT"
 // dev
-// const mongoUrl = `mongodb+srv://develiask:I0yYAtpHxlyD2kqE@eliaskcluster.xizgwyh.mongodb.net/`
-const mongoUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@eliaskcluster.xizgwyh.mongodb.net/` // dev
+const urlLocal = "mongodb://admin:password@localhost:27018/?authMechanism=DEFAULT"
+const urlProd = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@eliaskcluster.xizgwyh.mongodb.net/` // dev
+
+const mongoUrl = isProduction() ? urlProd : urlLocal
 
 mongoose.connect(mongoUrl, { dbName: 'price-fetcher-db' });
 // mongoose.connect(mongoUrl, { dbName: 'shop-items-db' });
